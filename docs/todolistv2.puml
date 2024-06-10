@@ -1,0 +1,44 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Main
+interface IO
+class DatabaseIO
+class DatabaseConnector
+class FileIO
+class TodoList
+class Item
+
+
+Main "1" *-- TodoList
+TodoList *-- IO
+TodoList "0..many" o-- Item
+IO <|-- FileIO
+IO <|-- DatabaseIO
+DatabaseIO *-- DatabaseConnector
+
+class Item {
+    - String description
+    - boolean done
+    + Item(String desc)
+    + Item(String desc, boolean done)
+    + String getDescription()
+    + boolean isDone()
+}
+class TodoList {
+    - List<Item> items
+    - IO io
+    + TodoList(IO io)
+    + void addItem(Item item)
+    + List<Item> getItems()
+}
+
+class FileIO {
+    - String path
+    - String header
+    + FileIO(String path, String header)
+    + void saveData(List<Item> items)
+    + List<Item> readData()
+}
+
+@enduml
